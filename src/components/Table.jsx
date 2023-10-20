@@ -21,13 +21,11 @@ const Table = ({
   setEditModal,
   selectedData,
 }) => {
+//   console.log(data);
   const router = useRouter();
   const handleRefresh = () => {
     router.reload();
   };
-
-  console.log(data);
-  console.log(selectedData);
 
   const [selectedRows, setSelectedRows] = useState([]);
   const [dropDownOpen, setDropDownOpen] = useState(null);
@@ -39,10 +37,10 @@ const Table = ({
     }
   };
   const formatDate = (dateString) => {
-    if (!dateString) return ""; 
-    const date = new Date(dateString); 
+    if (!dateString) return "";
+    const date = new Date(dateString);
     const day = date.getDate();
-    const month = date.getMonth() + 1; 
+    const month = date.getMonth() + 1;
     const year = date.getFullYear();
     return `${day}-${month}-${year}`;
   };
@@ -121,151 +119,59 @@ const Table = ({
             </tr>
           </thead>
           <tbody>
-            {searchQuery == "" && selectedData.length === 0 ? (
-              data?.map((pet, i) => (
-                <tr className="" key={pet.id}>
-                  <td className="bodyText p-2 border-b">
-                    <input
-                      type="checkbox"
-                      className="form-checkbox  text-gray-500"
-                      checked={selectedRows.includes(pet?.id)}
-                      onChange={() => toggleSelectRow(pet?.id)}
-                    />
-                  </td>
-                  <td className="bodyText border-b p-2">
-                    {pet?.breed
-                      ? pet.breed.slice(0, 1) + " - 0" + (i + 1)
-                      : "N/A"}
-                  </td>
-                  <td className="bodyText p-2 border-b">{pet?.petname}</td>
-                  <td className="bodyText p-2 border-b">
-                    {pet?.status === "allergy" ? (
-                      <Image
-                        src={allergy}
-                        alt={pet?.status}
-                        className="h-4 w-4 mx-auto"
-                      />
-                    ) : (
-                      <Image
-                        src={picky_eater}
-                        alt={pet?.status}
-                        className="h-4 w-4 mx-auto"
-                      />
-                    )}
-                  </td>
-                  <td className="bodyText p-2 border-b">{pet?.pawrent}</td>
-                  <td className="bodyText p-2 border-b">{pet?.breed}</td>
-                  <td className="bodyText p-2 border-b">{pet?.gender}</td>
-                  <td className="bodyText p-2 border-b">
-                    {formatDate(pet?.dateOfBirth)}
-                  </td>
-                  <td className="bodyText p-2 border-b">{pet?.contactNo}</td>
-                  <td className="bodyText p-2 border-b">
-                    {pet?.address + ", " + pet?.township + ", " + pet?.city}
-                  </td>
-                  <td
-                    onClick={() => showDropDown(pet?.id)}
-                    className="bodyText p-2 border-b relative "
-                  >
-                    <Image src={more} className="h-4 w-3" alt="" />
-                    {dropDownOpen === pet?.id && (
-                      <div className="popup">
-                        {/* Dropdown content for the open actions */}
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setEditModal(true);
-                          }}
-                          className=" flex gap-3 border-b w-full"
-                        >
-                          <Image className="h-3 w-3 mt-1" src={pencil} alt="" />
-                          Edit
-                        </button>
-                        {editModal == true ? (
-                          <EditPatient setEditModal={setEditModal} pet={pet} />
-                        ) : null}
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            deleteProduct(pet?.id);
-                          }}
-                          className=" flex gap-3 w-full"
-                        >
-                          <Image className="h-3 w-3 mt-1" src={bin} alt="" />
-                          Delete
-                        </button>
-                      </div>
-                    )}
-                  </td>
-                </tr>
-              ))
-            ) : filteredPets && filteredPets.length > 0 ? (
-              filteredPets.map((filpet, i) => {
-                return (
-                  <tr className="" key={filpet.id}>
+            {searchQuery && selectedData == ""
+              ? data?.map((pet, i) => (
+                  <tr className="" key={pet.id}>
                     <td className="bodyText p-2 border-b">
                       <input
                         type="checkbox"
                         className="form-checkbox  text-gray-500"
-                        checked={selectedRows.includes(filpet?.id)}
-                        onChange={() => toggleSelectRow(filpet?.id)}
+                        checked={selectedRows.includes(pet?.id)}
+                        onChange={() => toggleSelectRow(pet?.id)}
                       />
                     </td>
                     <td className="bodyText border-b p-2">
-                      {filpet?.breed
-                        ? filpet.breed.slice(0, 1) + " - 0" + (i + 1)
+                      {pet?.breed
+                        ? pet.breed.slice(0, 1) + " - 0" + (i + 1)
                         : "N/A"}
                     </td>
-                    <td className="bodyText p-2 border-b">{filpet?.petname}</td>
+                    <td className="bodyText p-2 border-b">{pet?.petname}</td>
                     <td className="bodyText p-2 border-b">
-                      {filpet?.status === "allergy" ? (
+                      {pet?.status === "allergy" ? (
                         <Image
                           src={allergy}
-                          alt={filpet?.status}
+                          alt={pet?.status}
                           className="h-4 w-4 mx-auto"
                         />
                       ) : (
                         <Image
                           src={picky_eater}
-                          alt={filpet?.status}
+                          alt={pet?.status}
                           className="h-4 w-4 mx-auto"
                         />
                       )}
                     </td>
-                    <td className="bodyText p-2 border-b">{filpet?.pawrent}</td>
-                    <td className="bodyText p-2 border-b">{filpet?.breed}</td>
-                    <td className="bodyText p-2 border-b">{filpet?.gender}</td>
+                    <td className="bodyText p-2 border-b">{pet?.pawrent}</td>
+                    <td className="bodyText p-2 border-b">{pet?.breed}</td>
+                    <td className="bodyText p-2 border-b">{pet?.gender}</td>
                     <td className="bodyText p-2 border-b">
-                      {formatDate(filpet?.dateOfBirth)}
+                      {formatDate(pet?.dateOfBirth)}
                     </td>
+                    <td className="bodyText p-2 border-b">{pet?.contactNo}</td>
                     <td className="bodyText p-2 border-b">
-                      {filpet?.contactNo}
-                    </td>
-                    <td className="bodyText p-2 border-b">
-                      {filpet?.address +
-                        ", " +
-                        filpet?.township +
-                        ", " +
-                        filpet?.city}
+                      {pet?.address + ", " + pet?.township + ", " + pet?.city}
                     </td>
                     <td
-                      onClick={() => showDropDown(filpet?.id)}
+                      onClick={() => showDropDown(pet?.id)}
                       className="bodyText p-2 border-b relative "
                     >
                       <Image src={more} className="h-4 w-3" alt="" />
-                      {dropDownOpen === filpet?.id && (
+                      {dropDownOpen === pet?.id && (
                         <div className="popup">
-                          {/* Dropdown content for the open actions */}
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
                               setEditModal(true);
-                              console.log(
-                                "Edit button clicked for ID:",
-                                filpet?.id,
-                                editModal
-                              );
-                              // Add your edit logic here
                             }}
                             className=" flex gap-3 border-b w-full"
                           >
@@ -279,13 +185,13 @@ const Table = ({
                           {editModal == true ? (
                             <EditPatient
                               setEditModal={setEditModal}
-                              pet={filpet}
+                              pet={pet}
                             />
                           ) : null}
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
-                              deleteProduct(filpet?.id);
+                              deleteProduct(pet?.id);
                             }}
                             className=" flex gap-3 w-full"
                           >
@@ -296,118 +202,114 @@ const Table = ({
                       )}
                     </td>
                   </tr>
-                );
-              })
-            ) : selectedData && selectedData.length > 0 ? (
-              selectedData.map((selectedPet, i) => {
-                return (
-                  <tr className="" key={selectedPet.id}>
-                    <td className="bodyText p-2 border-b">
-                      <input
-                        type="checkbox"
-                        className="form-checkbox  text-gray-500"
-                        checked={selectedRows.includes(selectedPet?.id)}
-                        onChange={() => toggleSelectRow(selectedPet?.id)}
-                      />
-                    </td>
-                    <td className="bodyText border-b p-2">
-                      {selectedPet?.breed
-                        ? selectedPet.breed.slice(0, 1) + " - 0" + (i + 1)
-                        : "N/A"}
-                    </td>
-                    <td className="bodyText p-2 border-b">
-                      {selectedPet?.petname}
-                    </td>
-                    <td className="bodyText p-2 border-b">
-                      {selectedPet?.status === "allergy" ? (
-                        <Image
-                          src={allergy}
-                          alt={selectedPet?.status}
-                          className="h-4 w-4 mx-auto"
+                ))
+              : filteredPets &&
+                filteredPets?.map((filpet, i) => {
+                  return (
+                    <tr className="" key={filpet.id}>
+                      <td className="bodyText p-2 border-b">
+                        <input
+                          type="checkbox"
+                          className="form-checkbox  text-gray-500"
+                          checked={selectedRows.includes(filpet?.id)}
+                          onChange={() => toggleSelectRow(filpet?.id)}
                         />
-                      ) : (
-                        <Image
-                          src={picky_eater}
-                          alt={selectedPet?.status}
-                          className="h-4 w-4 mx-auto"
-                        />
-                      )}
-                    </td>
-                    <td className="bodyText p-2 border-b">
-                      {selectedPet?.pawrent}
-                    </td>
-                    <td className="bodyText p-2 border-b">
-                      {selectedPet?.breed}
-                    </td>
-                    <td className="bodyText p-2 border-b">
-                      {selectedPet?.gender}
-                    </td>
-                    <td className="bodyText p-2 border-b">
-                      {formatDate(selectedPet?.dateOfBirth)}
-                    </td>
-                    <td className="bodyText p-2 border-b">
-                      {selectedPet?.contactNo}
-                    </td>
-                    <td className="bodyText p-2 border-b">
-                      {selectedPet?.address +
-                        ", " +
-                        selectedPet?.township +
-                        ", " +
-                        selectedPet?.city}
-                    </td>
-                    <td
-                      onClick={() => showDropDown(selectedPet?.id)}
-                      className="bodyText p-2 border-b relative "
-                    >
-                      <Image src={more} className="h-4 w-3" alt="" />
-                      {dropDownOpen === selectedPet?.id && (
-                        <div className="popup">
-                          {/* Dropdown content for the open actions */}
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setEditModal(true);
-                              console.log(
-                                "Edit button clicked for ID:",
-                                selectedPet?.id,
-                                editModal
-                              );
-                              // Add your edit logic here
-                            }}
-                            className=" flex gap-3 border-b w-full"
-                          >
-                            <Image
-                              className="h-3 w-3 mt-1"
-                              src={pencil}
-                              alt=""
-                            />
-                            Edit
-                          </button>
-                          {editModal == true ? (
-                            <EditPatient
-                              setEditModal={setEditModal}
-                              pet={selectedPet}
-                            />
-                          ) : null}
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              deleteProduct(selectedPet?.id);
-                            }}
-                            className=" flex gap-3 w-full"
-                          >
-                            <Image className="h-3 w-3 mt-1" src={bin} alt="" />
-                            Delete
-                          </button>
-                        </div>
-                      )}
-                    </td>
-                  </tr>
-                );
-              })
-            ) : (
-              <p>No matching data found</p>
-            )}
+                      </td>
+                      <td className="bodyText border-b p-2">
+                        {filpet?.breed
+                          ? filpet.breed.slice(0, 1) + " - 0" + (i + 1)
+                          : "N/A"}
+                      </td>
+                      <td className="bodyText p-2 border-b">
+                        {filpet?.petname}
+                      </td>
+                      <td className="bodyText p-2 border-b">
+                        {filpet?.status === "allergy" ? (
+                          <Image
+                            src={allergy}
+                            alt={filpet?.status}
+                            className="h-4 w-4 mx-auto"
+                          />
+                        ) : (
+                          <Image
+                            src={picky_eater}
+                            alt={filpet?.status}
+                            className="h-4 w-4 mx-auto"
+                          />
+                        )}
+                      </td>
+                      <td className="bodyText p-2 border-b">
+                        {filpet?.pawrent}
+                      </td>
+                      <td className="bodyText p-2 border-b">{filpet?.breed}</td>
+                      <td className="bodyText p-2 border-b">
+                        {filpet?.gender}
+                      </td>
+                      <td className="bodyText p-2 border-b">
+                        {formatDate(filpet?.dateOfBirth)}
+                      </td>
+                      <td className="bodyText p-2 border-b">
+                        {filpet?.contactNo}
+                      </td>
+                      <td className="bodyText p-2 border-b">
+                        {filpet?.address +
+                          ", " +
+                          filpet?.township +
+                          ", " +
+                          filpet?.city}
+                      </td>
+                      <td
+                        onClick={() => showDropDown(filpet?.id)}
+                        className="bodyText p-2 border-b relative "
+                      >
+                        <Image src={more} className="h-4 w-3" alt="" />
+                        {dropDownOpen === filpet?.id && (
+                          <div className="popup">
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setEditModal(true);
+                                console.log(
+                                  "Edit button clicked for ID:",
+                                  filpet?.id,
+                                  editModal
+                                );
+                              }}
+                              className=" flex gap-3 border-b w-full"
+                            >
+                              <Image
+                                className="h-3 w-3 mt-1"
+                                src={pencil}
+                                alt=""
+                              />
+                              Edit
+                            </button>
+                            {editModal == true ? (
+                              <EditPatient
+                                setEditModal={setEditModal}
+                                pet={filpet}
+                              />
+                            ) : null}
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                deleteProduct(filpet?.id);
+                              }}
+                              className=" flex gap-3 w-full"
+                            >
+                              <Image
+                                className="h-3 w-3 mt-1"
+                                src={bin}
+                                alt=""
+                              />
+                              Delete
+                            </button>
+                          </div>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
           </tbody>
         </table>
       )}

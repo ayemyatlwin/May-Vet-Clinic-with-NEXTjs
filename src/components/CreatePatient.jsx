@@ -13,8 +13,6 @@ const CreatePatient = ({ showModal, setShowModal }) => {
       router.reload();
     };
   const [selectedDate, setSelectedDate] = useState(null);
-
-  // console.log( selectedDate);
   const [patientData, setPatientData] = useState({
     petname: "",
     pawrent: "",
@@ -53,7 +51,7 @@ const CreatePatient = ({ showModal, setShowModal }) => {
   useEffect(() => {
     setPatientData({
       ...patientData,
-      dateOfBirth: selectedDate, // Update dateOfBirth with selectedDate
+      dateOfBirth: selectedDate, 
     });
   }, [selectedDate]);
 
@@ -200,7 +198,7 @@ const CreatePatient = ({ showModal, setShowModal }) => {
                       <select
                         required
                         id="small"
-                        value={patientData.status} // Set the value to the state variable
+                        value={patientData.status} 
                         onChange={(e) =>
                           setPatientData({
                             ...patientData,
@@ -221,7 +219,7 @@ const CreatePatient = ({ showModal, setShowModal }) => {
                       <select
                         required
                         id="small"
-                        value={patientData.breed} // Set the value to the state variable
+                        value={patientData.breed} 
                         onChange={(e) =>
                           setPatientData({
                             ...patientData,
@@ -244,8 +242,8 @@ const CreatePatient = ({ showModal, setShowModal }) => {
                       </label>
                       <DatePicker
                         selected={selectedDate}
-                        onChange={(date) => setSelectedDate(date)} // Set the selected date in state
-                        dateFormat="dd/MM/yyyy" // Use "dd" for day, "MM" for month, and "yyyy" for year
+                        onChange={(date) => setSelectedDate(date)} 
+                        dateFormat="dd/MM/yyyy" 
                         className="shadow appearance-none border inputBorder rounded w-full py-2 mb-1  px-1 text-black"
                         placeholderText="Select Date"
                       />

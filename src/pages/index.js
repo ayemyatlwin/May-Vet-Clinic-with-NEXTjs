@@ -1,14 +1,10 @@
 import Overview from "@/components/Overview";
 import Table from "@/components/Table";
 import axios from "axios";
-import { useRouter } from "next/router";
 import { useState } from "react";
 
-export default function Home({ data }) {
-  const router = useRouter();
-  const handleRefresh = () => {
-    router.reload();
-  };
+export default function Home({ renderedData }) {
+  const [data, setData] = useState([...renderedData]);
 
   const [searchQuery, setSearchQuery] = useState("");
   const handleSearchInputChange = (e) => {
@@ -21,32 +17,23 @@ export default function Home({ data }) {
     if (pet && pet.petname) {
       return pet.petname.toLowerCase().includes(searchQuery.toLowerCase());
     }
+    setData(filteredPets);
     return false;
   });
-  const [selectedDir, setSelectedDir] = useState("");
-  // console.log(selectedDir);
-
-  const selectedData = data?.filter((pet) => {
-    switch (true) {
-      case pet && pet.breed.includes(selectedDir):
-      case pet && pet.status.includes(selectedDir):
-        return true;
-      default:
-        return false;
-    }
-  });
+  console.log(filteredPets);
 
   return (
     <>
       <Overview
         searchQuery={searchQuery}
+        renderedData={renderedData}
         handleSearchInputChange={handleSearchInputChange}
         showModal={showModal}
         setShowModal={setShowModal}
-        setSelectedDir={setSelectedDir}
+        data={data}
+        setData={setData}
       />
       <Table
-        selectedData={selectedData}
         data={data}
         searchQuery={searchQuery}
         editModal={editModal}
@@ -61,10 +48,11 @@ export async function getServerSideProps() {
   const response = await axios.get(
     "https://patient-list-w0nz.onrender.com/patients"
   );
-  const data = response.data;
+  const renderedData = response.data;
+
   return {
     props: {
-      data,
+      renderedData,
     },
   };
 }

@@ -12,7 +12,6 @@ const EditPatient = ({  setEditModal,pet }) => {
   };
 //  console.log(pet);
  const date=new Date(pet?.dateOfBirth);
-//  console.log(date,"hhhh");
   const [selectedDate, setSelectedDate] = useState(date);
 
 //   console.log(selectedDate);
@@ -36,15 +35,14 @@ const EditPatient = ({  setEditModal,pet }) => {
         patientData
       );
       handleRefresh();
-    //   console.log(data);
     } catch (error) {
-    //   console.error("Error updating data:", error);
+      console.error("Error updating data:", error);
     }
   };
   const handleSave = async (e) => {
     if (e) {
         e.stopPropagation();
-        e.preventDefault(); // Check if e is defined and has preventDefault method
+        e.preventDefault(); 
       }
       setPatientData({
         ...patientData,
@@ -67,7 +65,7 @@ const EditPatient = ({  setEditModal,pet }) => {
   useEffect(() => {
     setPatientData({
       ...patientData,
-      dateOfBirth: selectedDate, // Update dateOfBirth with selectedDate
+      dateOfBirth: selectedDate, 
     });
   }, [selectedDate]);
   
@@ -223,7 +221,7 @@ const EditPatient = ({  setEditModal,pet }) => {
                       </label>
                       <select
                         id="small"
-                        value={patientData.status} // Set the value to the state variable
+                        value={patientData.status}
                         onChange={(e) =>{
                            e.stopPropagation();
                             setPatientData({
@@ -246,7 +244,7 @@ const EditPatient = ({  setEditModal,pet }) => {
                       </label>
                       <select
                         id="small"
-                        value={patientData.breed} // Set the value to the state variable
+                        value={patientData.breed} 
                         onChange={(e) =>{
                            e.stopPropagation();
                             setPatientData({
@@ -272,8 +270,8 @@ const EditPatient = ({  setEditModal,pet }) => {
                       </label>
                       <DatePicker
                         selected={patientData.dateOfBirth}
-                        onChange={(date) => setSelectedDate(date)} // Set the selected date in state
-                        dateFormat="dd/MM/yyyy" // Use "dd" for day, "MM" for month, and "yyyy" for year
+                        onChange={(date) => setSelectedDate(date)} 
+                        dateFormat="dd/MM/yyyy" 
                         className="shadow appearance-none border inputBorder rounded w-full py-2 mb-1  px-1 text-black"
                         placeholderText="Select Date"
                       />
