@@ -19,13 +19,17 @@ const Table = ({
   filteredPets,
   editModal,
   setEditModal,
-  selectedData,
+  selectedRow,
 }) => {
-//   console.log(data);
+  //   console.log(data);
   const router = useRouter();
   const handleRefresh = () => {
     router.reload();
   };
+
+  const rowsPerPage = selectedRow; //rows like 10,15,20
+  const displayedData = data.slice(0, rowsPerPage);
+  console.log(displayedData);
 
   const [selectedRows, setSelectedRows] = useState([]);
   const [dropDownOpen, setDropDownOpen] = useState(null);
@@ -119,8 +123,8 @@ const Table = ({
             </tr>
           </thead>
           <tbody>
-            {searchQuery && selectedData == ""
-              ? data?.map((pet, i) => (
+            {searchQuery == ""
+              ? data.slice(0, rowsPerPage)?.map((pet, i) => (
                   <tr className="" key={pet.id}>
                     <td className="bodyText p-2 border-b">
                       <input

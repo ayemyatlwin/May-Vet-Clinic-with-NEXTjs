@@ -4,7 +4,10 @@ import axios from "axios";
 import { useState } from "react";
 
 export default function Home({ renderedData }) {
-  const [data, setData] = useState([...renderedData]);
+  const [selectedRow,setSelectedRow]=useState(20);
+  console.log(selectedRow);
+
+  const [data, setData] = useState([...renderedData.slice(0,selectedRow)]);
 
   const [searchQuery, setSearchQuery] = useState("");
   const handleSearchInputChange = (e) => {
@@ -20,18 +23,22 @@ export default function Home({ renderedData }) {
     setData(filteredPets);
     return false;
   });
-  console.log(filteredPets);
+  // console.log(filteredPets);
+
+  
 
   return (
     <>
       <Overview
         searchQuery={searchQuery}
-        renderedData={renderedData}
         handleSearchInputChange={handleSearchInputChange}
         showModal={showModal}
         setShowModal={setShowModal}
         data={data}
         setData={setData}
+        renderedData={renderedData}
+        selectedRow={selectedRow}
+        setSelectedRow={setSelectedRow}
       />
       <Table
         data={data}
@@ -39,6 +46,7 @@ export default function Home({ renderedData }) {
         editModal={editModal}
         setEditModal={setEditModal}
         filteredPets={filteredPets}
+        selectedRow={selectedRow}
       />
     </>
   );

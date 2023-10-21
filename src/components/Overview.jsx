@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import search from "../images/search.png";
 import SelectSmall from "./SelectSmall";
 import CreatePatient from "./CreatePatient";
@@ -11,7 +11,14 @@ const Overview = ({
   data,
   setData,
   renderedData,
+  selectedRow,
+  setSelectedRow,
 }) => {
+  const rowChangeHandler = (value) => {
+    setSelectedRow(Number(value));
+
+  };
+
   return (
     <div className=" flex flex-col px-5">
       <h1 className=" Title font-semibold">Patient List</h1>
@@ -36,7 +43,6 @@ const Overview = ({
               valueOne={"allergy"}
               valueTwo={"picky_eat"}
               setData={setData}
-              data={data}
             />
             <SelectSmall
               val={"Breed All"}
@@ -45,7 +51,6 @@ const Overview = ({
               valueTwo={"Beagle"}
               valueThree={"Spaniel"}
               setData={setData}
-              data={data}
             />
           </div>
         </div>
@@ -56,12 +61,12 @@ const Overview = ({
               Rows per page:
             </label>
             <select
+            value={selectedRow}
+              onChange={(e) => rowChangeHandler(e.target.value)}
               id="small"
               className="block w-full p-1 mb-3 text-sm text-placeholder selectBorders rounded-full bg-inherit"
             >
-              <option selected value="10">
-                10
-              </option>
+              <option value="10">10</option>
               <option value="15">15</option>
               <option value="20">20</option>
             </select>

@@ -6,14 +6,12 @@ export default function SelectSmall({
   valueTwo,
   valueThree,
   renderedData,
-  setData,
-  data,
+  setData
 }) {
-  const [selectedDir, setSelectedDirLocal] = useState("");
+  const [selectedDir, setSelectedDir] = useState("");
 
   const handleDirectorySelect = (selectedValue) => {
-    setSelectedDirLocal(selectedValue);
-
+    setSelectedDir(selectedValue);
     const selectedData = renderedData?.filter((pet) => {
       return (
         pet &&
