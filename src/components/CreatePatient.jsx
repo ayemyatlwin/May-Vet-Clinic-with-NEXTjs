@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import add from "../images/add.png"
+import add from "../images/add.png";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import { useAppContext } from "./AppContext";
 
-const CreatePatient = ({ showModal, setShowModal }) => {
-    const router = useRouter();
-    const handleRefresh = () => {
-      router.reload();
-    };
+const CreatePatient = () => {
+  const { showModal, setShowModal } = useAppContext();
+  const router = useRouter();
+  const handleRefresh = () => {
+    router.reload();
+  };
   const [selectedDate, setSelectedDate] = useState(null);
   const [patientData, setPatientData] = useState({
     petname: "",
@@ -39,7 +41,7 @@ const CreatePatient = ({ showModal, setShowModal }) => {
     setShowModal(false);
     toast.success("Created Successfully", {
       position: "bottom-left",
-      autoClose: 2000,
+      autoClose: 300,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -51,7 +53,7 @@ const CreatePatient = ({ showModal, setShowModal }) => {
   useEffect(() => {
     setPatientData({
       ...patientData,
-      dateOfBirth: selectedDate, 
+      dateOfBirth: selectedDate,
     });
   }, [selectedDate]);
 
@@ -70,7 +72,7 @@ const CreatePatient = ({ showModal, setShowModal }) => {
         <>
           <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto shadow-2xl fixed inset-0 z-50 ">
             <div className="relative w-auto my-6 mx-auto max-w-3xl">
-              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+              <form onSubmit={handleSave} className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                 <div className="flex justify-end p-3  rounded-t ">
                   <button
                     className="bg-transparent border-0 text-black float-right"
@@ -81,18 +83,21 @@ const CreatePatient = ({ showModal, setShowModal }) => {
                     </span>
                   </button>
                 </div>
-                <h3 className="mx-auto font-semibold  Title ">Add New Patient</h3>
+                <h3 className="mx-auto font-semibold  Title ">
+                  Add New Patient
+                </h3>
                 <h3 className="mx-auto text-[14px]  ">
                   Enter New Patient Information Below
                 </h3>
 
                 <div className="relative px-7 pt-5 pb-12 flex flex-row gap-12">
                   <div className="w-[50%]">
-                    <form className="  px-8 pt-6 pb-4 w-full">
+                    <div className="  px-8 pt-6 pb-4 w-full">
                       <label className="block text-black text-sm  mb-1 ">
                         Pet Name
                       </label>
                       <input
+                      required
                         value={patientData?.petname}
                         onChange={(e) =>
                           setPatientData({
@@ -188,17 +193,17 @@ const CreatePatient = ({ showModal, setShowModal }) => {
                         }
                         className="shadow appearance-none border inputBorder rounded w-full py-2 px-1 text-black"
                       />
-                    </form>
+                    </div>
                   </div>
                   <div className="w-[50%]">
-                    <form className="  px-8 pt-6 pb-4 w-full">
+                    <div className="  px-8 pt-6 pb-4 w-full">
                       <label className="block text-black text-sm  mb-1 mt-1">
                         Status
                       </label>
                       <select
                         required
                         id="small"
-                        value={patientData.status} 
+                        value={patientData.status}
                         onChange={(e) =>
                           setPatientData({
                             ...patientData,
@@ -219,7 +224,7 @@ const CreatePatient = ({ showModal, setShowModal }) => {
                       <select
                         required
                         id="small"
-                        value={patientData.breed} 
+                        value={patientData.breed}
                         onChange={(e) =>
                           setPatientData({
                             ...patientData,
@@ -242,8 +247,8 @@ const CreatePatient = ({ showModal, setShowModal }) => {
                       </label>
                       <DatePicker
                         selected={selectedDate}
-                        onChange={(date) => setSelectedDate(date)} 
-                        dateFormat="dd/MM/yyyy" 
+                        onChange={(date) => setSelectedDate(date)}
+                        dateFormat="dd/MM/yyyy"
                         className="shadow appearance-none border inputBorder rounded w-full py-2 mb-1  px-1 text-black"
                         placeholderText="Select Date"
                       />
@@ -274,12 +279,12 @@ const CreatePatient = ({ showModal, setShowModal }) => {
                         }
                         className="shadow appearance-none border inputBorder rounded w-full py-2 px-1 text-black"
                       />
-                    </form>
+                    </div>
                   </div>
                 </div>
                 <div className=" flex justify-center  pb-3 gap-5">
                   <button
-                    onClick={handleSave}
+                  type="submit"
                     className="w-20 save-btn rounded-md  text-center"
                   >
                     Save{" "}
@@ -291,7 +296,7 @@ const CreatePatient = ({ showModal, setShowModal }) => {
                     Cancel
                   </button>
                 </div>
-              </div>
+              </form>
             </div>
           </div>
         </>

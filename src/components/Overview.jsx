@@ -1,22 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import search from "../images/search.png";
 import SelectSmall from "./SelectSmall";
 import CreatePatient from "./CreatePatient";
+import { useAppContext } from "./AppContext";
 
-const Overview = ({
-  searchQuery,
-  handleSearchInputChange,
-  showModal,
-  setShowModal,
-  data,
-  setData,
-  renderedData,
-  selectedRow,
-  setSelectedRow,
-}) => {
+const Overview = ({ handleSearchInputChange, setData, renderedData }) => {
+  const { selectedRow, setSelectedRow,searchQuery } =
+    useAppContext();
+
   const rowChangeHandler = (value) => {
     setSelectedRow(Number(value));
-
   };
 
   return (
@@ -55,14 +48,16 @@ const Overview = ({
           </div>
         </div>
         <div className="flex flex-col">
-          <CreatePatient showModal={showModal} setShowModal={setShowModal} />
+          <CreatePatient />
           <div className="flex mt-2 ">
             <label htmlFor="small" className="block text-xs font-medium  ">
               Rows per page:
             </label>
             <select
-            value={selectedRow}
-              onChange={(e) => rowChangeHandler(e.target.value)}
+              value={selectedRow}
+              onChange={(e) => {
+                rowChangeHandler(e.target.value);
+              }}
               id="small"
               className="block w-full p-1 mb-3 text-sm text-placeholder selectBorders rounded-full bg-inherit"
             >

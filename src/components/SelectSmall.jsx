@@ -6,7 +6,7 @@ export default function SelectSmall({
   valueTwo,
   valueThree,
   renderedData,
-  setData
+  setData,
 }) {
   const [selectedDir, setSelectedDir] = useState("");
 
